@@ -1,150 +1,164 @@
+<p align="center">
+  <img src="assets/images/readme-hero.png" alt="Image thumbnails flowing through a neural network into labeled predictions" width="100%">
+</p>
+
 # Generic Image Classification Framework
 
-**What is this?** A user-friendly tool that helps you teach a computer to recognize and categorize images automatically - no programming knowledge required!
+[![CI](https://github.com/alhussein-jamil/generic-image-classifier/actions/workflows/ci.yml/badge.svg)](https://github.com/alhussein-jamil/generic-image-classifier/actions/workflows/ci.yml)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/)
+[![PyPI](https://img.shields.io/pypi/v/generic-image-classifier)](https://pypi.org/project/generic-image-classifier/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-0F766E)](LICENSE)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.6%2B-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![Gradio](https://img.shields.io/badge/Gradio-5.20%2B-F97316)](https://gradio.app/)
 
-![Framework Architecture](assets/images/architecture.svg)
+Train a custom image classifier from your own folder-labeled images, then test it in a friendly Gradio interface. The project wraps a practical PyTorch transfer-learning pipeline around a simple workflow: upload a ZIP, pick a backbone, train, review results, and classify new images.
 
-## What Can This Do For You?
+## What It Does
 
-This tool allows you to:
+- Trains an image classifier from a `dataset.zip` where each folder is one class.
+- Uses torchvision backbones such as MobileNetV2, ResNet, DenseNet, VGG, and EfficientNet.
+- Handles extraction, class mapping, train/validation splitting, augmentation, normalization, and checkpoint saving.
+- Shows training history, confusion matrix, and ranked prediction probabilities in Gradio.
+- Supports an all-in-one app flow as well as CLI-driven training.
 
-- **Automatically categorize images**: Train a computer to sort images into different categories (like "normal" vs. "abnormal" medical scans)
-- **Use your own image categories**: The system learns from your own labeled examples
-- **Apply expert knowledge**: You provide the labeled examples, the system learns the patterns
-- **Get immediate results**: Test your trained system on new images instantly
-- **No coding required**: Everything works through a simple interface
+## The Big Picture
 
-![User Workflow](assets/images/workflow.svg)
+![Framework architecture](assets/images/architecture.svg)
 
-## Simple Explanation of How It Works
+The CLI coordinates the data layer, model factory, typed configuration schemas, and Gradio UI. Training produces a checkpoint bundle with weights, model metadata, config, and example images.
 
-1. **You provide categorized images**: For example, folders of "normal tissue" and "abnormal tissue" images
-2. **The system learns patterns**: The AI studies what makes each category unique
-3. **The system can then identify new images**: After learning, it can categorize images it's never seen before
+![User workflow](assets/images/workflow.svg)
 
-## Getting Started (Technical Instructions)
+## Quick Start
 
-### Installation
-
-Install the required software:
-
-```bash
-pip install -r requirements.txt
-```
-
-For development purposes:
+Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-pip install -r requirements-dev.txt
+git clone https://github.com/alhussein-jamil/generic-image-classifier.git
+cd generic-image-classifier
+uv sync
 ```
 
-### Basic Usage
-
-The simplest way to use the framework:
+Launch the all-in-one Gradio app:
 
 ```bash
-python app.py
+uv run image-classifier
 ```
 
-This will:
-1. Guide you to provide a dataset of categorized images
-2. Train a model to recognize patterns in your images
-3. Launch a friendly interface for testing the trained model
+Then open the local Gradio URL, upload a dataset ZIP, choose training settings, train the model, and classify test images from the same interface.
 
-### How to Prepare Your Images
+Train then launch:
 
-Your images should be organized in folders, with each folder representing a category:
-
+```bash
+uv run image-classifier --mode both --zip dataset.zip --model mobilenetv2 --epochs 10
 ```
+
+Training only:
+
+```bash
+uv run image-classifier --mode train --zip dataset.zip --model resnet50 --epochs 20
+```
+
+## Dataset Format
+
+Your ZIP file should contain one directory per class. Directory names become the labels the model learns.
+
+![Dataset layout](assets/images/dataset-layout.svg)
+
+```text
 dataset.zip
-├── normal/
-│   ├── image1.jpg
-│   ├── image2.jpg
-│   └── ...
-├── abnormal/
-│   ├── image1.jpg
-│   ├── image2.jpg
-│   └── ...
-└── ...
+├── cats/
+│   ├── cat_001.jpg
+│   └── cat_002.png
+├── dogs/
+│   ├── dog_001.jpg
+│   └── dog_002.png
+└── birds/
+    ├── bird_001.jpg
+    └── bird_002.png
 ```
 
-Each folder name becomes a category the system will learn to identify.
+Supported image extensions are `.jpg`, `.jpeg`, `.png`, `.bmp`, `.tif`, and `.tiff`.
 
-## Understanding the AI Models
+## How Training Works
 
-The system can use different "models" (AI engines) depending on your needs. Think of these as different brains with various capabilities:
+![Data flow](assets/images/dataflow.svg)
 
-![Available Models](assets/images/models.svg)
+1. The ZIP is extracted into a working directory.
+2. Folder names are converted into numeric class IDs.
+3. Images are shuffled and split into training and validation sets.
+4. Training images can receive augmentation; validation images stay deterministic.
+5. A pretrained backbone gets a new classification head for your class count.
+6. The checkpoint, schema, config, and example images are saved under `checkpoints/`.
 
-- **Fast, lightweight models** (like MobileNetV2): Great for starting out or when you need quick results
-- **Medium-sized models** (like ResNet50): Good balance between accuracy and speed
-- **Powerful models** (like ResNet152): When you need the highest possible accuracy
+## Model Choices
 
-## How Data Flows Through the System
+![Model choices](assets/images/models.svg)
 
-This diagram shows how your images move through the system - from input to results:
+Start with `mobilenetv2` for fast iteration. Move to `resnet50`, `densenet121`, or `efficientnetb0` when you need a stronger baseline. Larger variants such as `resnet152` or `efficientnetb7` can improve accuracy on suitable datasets, but they need more time and memory.
 
-![Data Flow](assets/images/dataflow.svg)
-
-1. **Your images** are loaded from a zip file
-2. **Data Loading**: The system organizes your images into categories
-3. **Preprocessing**: Images are standardized to work with the AI
-4. **Model Training**: The AI learns patterns from your images
-5. **Model Saving**: The trained AI is saved for future use
-6. **Application**: A user interface lets you test new images
-
-## Advanced Options
-
-If you want more control, you can customize settings:
+## Useful Commands
 
 ```bash
-python app.py --help
+uv run image-classifier --help
+uv run image-classifier --mode train --zip dataset.zip --img_size 224 224 --batch_size 32
+uv run image-classifier --mode train --zip dataset.zip --save_config config.json
+uv run python -m generic_image_classifier --mode app
 ```
 
-Common settings you can adjust:
-
-- Which AI model to use
-- How long to train the system
-- Image size and quality settings
-- Where to save your trained model
-
-### Using a Configuration File
-
-For even more control, you can save all your settings in a configuration file:
+## Development
 
 ```bash
-python app.py --config path/to/config.json
+make help          # list commands
+make dev           # install dev deps
+make app           # launch Gradio UI
+make train ZIP=dataset.zip
+make check         # lint + test
 ```
 
-## Practical Examples
-
-### Training with Your Images
+Or directly:
 
 ```bash
-python app.py --zip your_images.zip --model resnet50 --epochs 20
+uv sync --dev
+uv run pre-commit install
+uv run pytest
+uv run ruff check src tests
 ```
 
-### Testing Only (Skip Training)
+CI runs lint and tests on push/PR. Publishing to PyPI happens on GitHub release (configure the `pypi` environment with trusted publishing).
 
-```bash
-python app.py --config your_settings.json --mode app
+## Project Structure
+
+```text
+.
+├── pyproject.toml
+├── src/generic_image_classifier/
+│   ├── cli.py             # CLI entrypoint
+│   ├── pipeline.py        # shared training workflow
+│   ├── config/            # config load/save helpers
+│   ├── data/              # ZIP loading, transforms, dataloaders
+│   ├── models/            # backbones, training, inference
+│   ├── schemas/           # config, dataset, model dataclasses
+│   └── ui/                # Gradio app and plots
+├── tests/
+└── assets/images/
 ```
 
-### Training Only (Skip Testing Interface)
+## Outputs
 
-```bash
-python app.py --zip your_images.zip --mode train
-```
+Training writes artifacts to `checkpoints/`, including:
 
-## Potential Medical Applications
+- Model weights (`*_best.pt`)
+- Model schema JSON (class mapping, metrics, input shape)
+- Config JSON
+- Example validation images for the Gradio app
 
-This tool could be useful for:
+## Responsible Use
 
-- Classifying medical images (X-rays, scans, microscope images)
-- Sorting tissue samples based on visual characteristics
-- Pre-screening large image datasets to flag potential areas of interest
-- Educational tools for medical students learning pattern recognition
+This project is a general-purpose image classification starter, not a certified diagnostic system. For medical, safety, or other high-stakes workflows, treat outputs as experimental decision support and validate with domain experts, representative data, and appropriate review before any real-world use.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Apache 2.0 — see [LICENSE](LICENSE).

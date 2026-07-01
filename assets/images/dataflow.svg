@@ -1,54 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="800" height="250" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background pattern -->
-  <pattern id="checkerboard" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-    <rect x="0" y="0" width="10" height="10" fill="#f5f5f5"/>
-    <rect x="10" y="0" width="10" height="10" fill="#eeeeee"/>
-    <rect x="0" y="10" width="10" height="10" fill="#eeeeee"/>
-    <rect x="10" y="10" width="10" height="10" fill="#f5f5f5"/>
-  </pattern>
-  <rect width="800" height="250" fill="url(#checkerboard)"/>
+<svg width="960" height="390" viewBox="0 0 960 390" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Data flow</title>
+  <desc id="desc">Technical data flow from a dataset zip through extraction, class mapping, train validation split, transforms, training, checkpoints and inference.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#334155" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10Z" fill="#475569"/>
+    </marker>
+    <style>
+      .title { font: 700 24px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 13px Arial, sans-serif; fill: #475569; }
+      .label { font: 700 14px Arial, sans-serif; fill: #0f172a; }
+      .body { font: 400 12px Arial, sans-serif; fill: #475569; }
+      .tag { font: 700 10px Arial, sans-serif; fill: #0f172a; letter-spacing: .5px; }
+      .box { stroke: #cbd5e1; stroke-width: 1.2; rx: 8; filter: url(#shadow); }
+      .arrow { fill: none; stroke: #475569; stroke-width: 2; marker-end: url(#arrow); }
+      .soft { fill: none; stroke: #94a3b8; stroke-width: 1.5; stroke-dasharray: 5 6; }
+    </style>
+  </defs>
 
-  <text x="400" y="30" font-weight="bold" font-size="20" text-anchor="middle" fill="#333">Data Flow</text>
+  <rect width="960" height="390" fill="url(#bg)"/>
+  <text x="480" y="42" text-anchor="middle" class="title">How Images Move Through the System</text>
+  <text x="480" y="65" text-anchor="middle" class="subtitle">The framework keeps the raw dataset, training tensors, saved schema, and prediction path distinct.</text>
 
-  <!-- Dataset -->
-  <rect x="50" y="70" width="120" height="60" fill="white" stroke="#333" stroke-width="1"/>
-  <text x="110" y="105" font-size="14" text-anchor="middle" fill="#333">Dataset.zip</text>
+  <g transform="translate(34 116)">
+    <rect class="box" width="128" height="90" fill="#ffffff"/>
+    <text x="20" y="29" class="tag">INPUT</text>
+    <text x="20" y="52" class="label">dataset.zip</text>
+    <text x="20" y="72" class="body">class folders</text>
+  </g>
 
-  <!-- Data Loading -->
-  <rect x="250" y="70" width="120" height="60" fill="#e3f2fd" stroke="#333" stroke-width="1" rx="10" ry="10"/>
-  <text x="310" y="105" font-size="14" text-anchor="middle" fill="#333">Data Loading</text>
+  <g transform="translate(202 116)">
+    <rect class="box" width="136" height="90" fill="#ecfeff"/>
+    <text x="20" y="29" class="tag">LOAD</text>
+    <text x="20" y="52" class="label">Extract &amp; scan</text>
+    <text x="20" y="72" class="body">valid image files</text>
+  </g>
 
-  <!-- Data Processing -->
-  <rect x="450" y="70" width="120" height="60" fill="#e3f2fd" stroke="#333" stroke-width="1" rx="10" ry="10"/>
-  <text x="510" y="105" font-size="14" text-anchor="middle" fill="#333">Preprocessing</text>
+  <g transform="translate(378 116)">
+    <rect class="box" width="136" height="90" fill="#eff6ff"/>
+    <text x="20" y="29" class="tag">MAP</text>
+    <text x="20" y="52" class="label">Class IDs</text>
+    <text x="20" y="72" class="body">folder names to labels</text>
+  </g>
 
-  <!-- Model -->
-  <rect x="650" y="70" width="120" height="60" fill="#e8f5e9" stroke="#333" stroke-width="1" rx="10" ry="10"/>
-  <text x="710" y="105" font-size="14" text-anchor="middle" fill="#333">Model Training</text>
+  <g transform="translate(554 116)">
+    <rect class="box" width="136" height="90" fill="#fef9c3"/>
+    <text x="20" y="29" class="tag">SPLIT</text>
+    <text x="20" y="52" class="label">Train / val</text>
+    <text x="20" y="72" class="body">shuffle and holdout</text>
+  </g>
 
-  <!-- Saved Model -->
-  <rect x="650" y="170" width="120" height="60" fill="white" stroke="#333" stroke-width="1"/>
-  <text x="710" y="205" font-size="14" text-anchor="middle" fill="#333">Saved Model</text>
+  <g transform="translate(730 116)">
+    <rect class="box" width="136" height="90" fill="#fff7ed"/>
+    <text x="20" y="29" class="tag">TENSOR</text>
+    <text x="20" y="52" class="label">Transforms</text>
+    <text x="20" y="72" class="body">resize, augment, normalize</text>
+  </g>
 
-  <!-- App -->
-  <rect x="450" y="170" width="120" height="60" fill="#fff8e1" stroke="#333" stroke-width="1" rx="10" ry="10"/>
-  <text x="510" y="205" font-size="14" text-anchor="middle" fill="#333">Gradio App</text>
+  <g transform="translate(238 264)">
+    <rect class="box" width="174" height="84" fill="#f8fafc"/>
+    <text x="22" y="29" class="tag">MODEL</text>
+    <text x="22" y="52" class="label">Torchvision backbone</text>
+    <text x="22" y="71" class="body">custom classification head</text>
+  </g>
 
-  <!-- Arrows -->
-  <!-- Using simple approach without markers for better compatibility -->
-  <line x1="170" y1="100" x2="240" y2="100" stroke="#666" stroke-width="2"/>
-  <polygon points="240,100 234,96 234,104" fill="#666"/>
+  <g transform="translate(493 264)">
+    <rect class="box" width="174" height="84" fill="#fff1f2"/>
+    <text x="22" y="29" class="tag">SAVE</text>
+    <text x="22" y="52" class="label">Checkpoint bundle</text>
+    <text x="22" y="71" class="body">weights, schema, examples</text>
+  </g>
 
-  <line x1="370" y1="100" x2="440" y2="100" stroke="#666" stroke-width="2"/>
-  <polygon points="440,100 434,96 434,104" fill="#666"/>
+  <g transform="translate(748 264)">
+    <rect class="box" width="174" height="84" fill="#f0fdf4"/>
+    <text x="22" y="29" class="tag">PREDICT</text>
+    <text x="22" y="52" class="label">Gradio inference</text>
+    <text x="22" y="71" class="body">softmax class probabilities</text>
+  </g>
 
-  <line x1="570" y1="100" x2="640" y2="100" stroke="#666" stroke-width="2"/>
-  <polygon points="640,100 634,96 634,104" fill="#666"/>
+  <path class="arrow" d="M162 161 H192"/>
+  <path class="arrow" d="M338 161 H368"/>
+  <path class="arrow" d="M514 161 H544"/>
+  <path class="arrow" d="M690 161 H720"/>
+  <path class="arrow" d="M798 206 C798 244 714 257 676 286"/>
+  <path class="arrow" d="M493 306 H422"/>
+  <path class="arrow" d="M667 306 H738"/>
+  <path class="soft" d="M622 206 C622 236 518 244 365 264"/>
+  <path class="soft" d="M446 206 C446 234 387 244 331 264"/>
 
-  <line x1="710" y1="130" x2="710" y2="170" stroke="#666" stroke-width="2"/>
-  <polygon points="710,170 706,164 714,164" fill="#666"/>
-
-  <line x1="650" y1="200" x2="580" y2="200" stroke="#666" stroke-width="2"/>
-  <polygon points="580,200 586,196 586,204" fill="#666"/>
+  <g transform="translate(48 248)">
+    <rect x="0" y="0" width="126" height="42" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="16" y="17" class="body">Supported files</text>
+    <text x="16" y="33" class="tag">JPG PNG BMP TIFF</text>
+  </g>
 </svg>

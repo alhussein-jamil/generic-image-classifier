@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="960" height="360" viewBox="0 0 960 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Dataset layout</title>
+  <desc id="desc">A dataset zip contains one folder per class. The framework reads folder names as labels and splits valid images into training and validation sets.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="0.5" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#fff7ed"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#0f172a" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title { font: 700 24px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 13px Arial, sans-serif; fill: #475569; }
+      .label { font: 700 15px Arial, sans-serif; fill: #0f172a; }
+      .body { font: 400 12px Arial, sans-serif; fill: #475569; }
+      .mono { font: 600 12px "Courier New", monospace; fill: #334155; }
+      .card { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.2; rx: 8; filter: url(#shadow); }
+      .arrow { fill: none; stroke: #334155; stroke-width: 2; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="960" height="360" fill="url(#bg)"/>
+  <text x="480" y="42" text-anchor="middle" class="title">Dataset ZIP Shape</text>
+  <text x="480" y="65" text-anchor="middle" class="subtitle">Folder names become class labels; image files inside those folders become examples.</text>
+
+  <g transform="translate(58 106)">
+    <rect class="card" width="250" height="206"/>
+    <text x="24" y="34" class="label">dataset.zip</text>
+    <path d="M27 66 h28 l8 8 h60 a6 6 0 0 1 6 6 v24 a6 6 0 0 1-6 6 H27 a6 6 0 0 1-6-6 V72 a6 6 0 0 1 6-6z" fill="#ccfbf1" stroke="#0f766e"/>
+    <text x="48" y="93" class="mono">cats/</text>
+    <text x="64" y="128" class="mono">cat_001.jpg</text>
+    <text x="64" y="148" class="mono">cat_002.png</text>
+    <path d="M27 158 h28 l8 8 h60 a6 6 0 0 1 6 6 v24 a6 6 0 0 1-6 6 H27 a6 6 0 0 1-6-6 v-32 a6 6 0 0 1 6-6z" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="48" y="185" class="mono">dogs/</text>
+  </g>
+
+  <g transform="translate(386 116)">
+    <rect class="card" width="188" height="84"/>
+    <circle cx="34" cy="42" r="18" fill="#fef3c7"/>
+    <path d="M25 42 h18 M34 33 v18" stroke="#ca8a04" stroke-width="3" stroke-linecap="round"/>
+    <text x="66" y="32" class="label">Class mapping</text>
+    <text x="66" y="55" class="body">cats -> 0</text>
+    <text x="66" y="73" class="body">dogs -> 1</text>
+  </g>
+
+  <g transform="translate(386 228)">
+    <rect class="card" width="188" height="84"/>
+    <circle cx="34" cy="42" r="18" fill="#fee2e2"/>
+    <path d="M22 50 C38 22 53 30 45 54" fill="none" stroke="#e11d48" stroke-width="3" stroke-linecap="round"/>
+    <text x="66" y="32" class="label">Validation split</text>
+    <text x="66" y="55" class="body">Default holdout: 20%</text>
+    <text x="66" y="73" class="body">Training keeps 80%</text>
+  </g>
+
+  <g transform="translate(652 106)">
+    <rect class="card" width="250" height="206"/>
+    <text x="26" y="34" class="label">What the model sees</text>
+    <rect x="28" y="58" width="58" height="58" rx="8" fill="#ecfeff" stroke="#14b8a6"/>
+    <rect x="98" y="58" width="58" height="58" rx="8" fill="#eff6ff" stroke="#3b82f6"/>
+    <rect x="168" y="58" width="58" height="58" rx="8" fill="#fff7ed" stroke="#f97316"/>
+    <path d="M42 98 l11-16 9 9 11-18" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M111 94 l13-12 8 8 13-20" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M183 92 c10-26 28-25 30 0" fill="none" stroke="#ea580c" stroke-width="3" stroke-linecap="round"/>
+    <text x="28" y="146" class="body">Images are resized to the configured</text>
+    <text x="28" y="166" class="body">shape, optionally augmented, and</text>
+    <text x="28" y="186" class="body">normalized before training.</text>
+  </g>
+
+  <path class="arrow" d="M308 190 H376"/>
+  <path class="arrow" d="M574 158 C611 158 619 174 642 190"/>
+  <path class="arrow" d="M574 270 C614 270 620 228 642 206"/>
+</svg>

@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "generic-image-classifier"
+version = "0.2.0"
+description = "Train and deploy image classification models with minimal setup"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.11"
+authors = [{ name = "Generic Image Classifier Contributors" }]
+keywords = ["image-classification", "pytorch", "gradio", "computer-vision"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "torch>=2.6.0",
+    "torchvision>=0.21.0",
+    "gradio>=5.20.0",
+    "scikit-learn>=1.6.0",
+    "matplotlib>=3.10.0",
+    "numpy>=2.2.0",
+    "pillow>=11.0.0",
+    "tqdm>=4.67.0",
+    "colorlog>=6.9.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.9.0",
+    "pre-commit>=4.0.0",
+]
+
+[project.scripts]
+image-classifier = "generic_image_classifier.cli:main"
+
+[project.urls]
+Repository = "https://github.com/alhussein-jamil/generic-image-classifier"
+Issues = "https://github.com/alhussein-jamil/generic-image-classifier/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/generic_image_classifier"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --tb=short"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["generic_image_classifier"]
+
+[tool.coverage.run]
+source = ["generic_image_classifier"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true

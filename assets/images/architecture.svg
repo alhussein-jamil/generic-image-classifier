@@ -1,35 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="800" height="200" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background pattern -->
-  <pattern id="checkerboard" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-    <rect x="0" y="0" width="10" height="10" fill="#f5f5f5"/>
-    <rect x="10" y="0" width="10" height="10" fill="#eeeeee"/>
-    <rect x="0" y="10" width="10" height="10" fill="#eeeeee"/>
-    <rect x="10" y="10" width="10" height="10" fill="#f5f5f5"/>
-  </pattern>
-  <rect width="800" height="200" fill="url(#checkerboard)"/>
+<svg width="960" height="430" viewBox="0 0 960 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Framework architecture</title>
+  <desc id="desc">Architecture diagram showing the console script, Gradio interface, data layer, model layer, schemas and saved outputs.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="0.52" stop-color="#eef7f6"/>
+      <stop offset="1" stop-color="#fff7ed"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#334155" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <style>
+      .title { font: 700 24px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 13px Arial, sans-serif; fill: #475569; }
+      .label { font: 700 15px Arial, sans-serif; fill: #0f172a; }
+      .body { font: 400 12px Arial, sans-serif; fill: #475569; }
+      .tiny { font: 700 11px Arial, sans-serif; fill: #0f172a; letter-spacing: .4px; }
+      .card { stroke: #cbd5e1; stroke-width: 1.2; rx: 8; filter: url(#shadow); }
+      .line { fill: none; stroke: #475569; stroke-width: 2; marker-end: url(#arrow); }
+    </style>
+  </defs>
 
-  <text x="400" y="30" font-weight="bold" font-size="20" text-anchor="middle" fill="#333">Framework Architecture</text>
+  <rect width="960" height="430" fill="url(#bg)"/>
+  <path d="M0 350 C180 310 290 390 480 348 S780 315 960 355 L960 430 L0 430 Z" fill="#ffffff" opacity="0.62"/>
+  <g opacity="0.28" stroke="#cbd5e1" stroke-width="1">
+    <path d="M80 64 H880"/>
+    <path d="M80 366 H880"/>
+    <path d="M100 64 V366"/>
+    <path d="M860 64 V366"/>
+  </g>
 
-  <!-- Data Module -->
-  <rect x="50" y="70" width="150" height="80" fill="#e1f5fe" stroke="#333" stroke-width="1" rx="10" ry="10"/>
-  <text x="125" y="110" font-size="14" text-anchor="middle" fill="#333">Data Module</text>
-  <text x="125" y="130" font-size="12" text-anchor="middle" fill="#333">(Dataset Loading)</text>
+  <text x="480" y="42" text-anchor="middle" class="title">Generic Image Classifier Architecture</text>
+  <text x="480" y="66" text-anchor="middle" class="subtitle">The package CLI turns class folders into a trained PyTorch model and a Gradio prediction UI.</text>
 
-  <!-- Model Module -->
-  <rect x="320" y="70" width="150" height="80" fill="#e8f5e9" stroke="#333" stroke-width="1" rx="10" ry="10"/>
-  <text x="395" y="110" font-size="14" text-anchor="middle" fill="#333">Model Module</text>
-  <text x="395" y="130" font-size="12" text-anchor="middle" fill="#333">(Training)</text>
+  <g transform="translate(58 112)">
+    <rect class="card" width="190" height="84" fill="#ffffff"/>
+    <circle cx="34" cy="42" r="18" fill="#14b8a6" opacity="0.16"/>
+    <path d="M25 42 h18 M34 33 v18" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/>
+    <text x="66" y="30" class="tiny">CLI</text>
+    <text x="66" y="51" class="label">image-classifier</text>
+    <text x="66" y="70" class="body">train, app, both modes</text>
+  </g>
 
-  <!-- App Module -->
-  <rect x="590" y="70" width="150" height="80" fill="#fff8e1" stroke="#333" stroke-width="1" rx="10" ry="10"/>
-  <text x="665" y="110" font-size="14" text-anchor="middle" fill="#333">Gradio App</text>
-  <text x="665" y="130" font-size="12" text-anchor="middle" fill="#333">(Deployment)</text>
+  <g transform="translate(58 238)">
+    <rect class="card" width="190" height="84" fill="#ffffff"/>
+    <circle cx="34" cy="42" r="18" fill="#60a5fa" opacity="0.18"/>
+    <rect x="24" y="31" width="22" height="22" rx="4" fill="none" stroke="#2563eb" stroke-width="2"/>
+    <path d="M28 39 h14 M28 46 h10" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
+    <text x="66" y="30" class="tiny">INTERFACE</text>
+    <text x="66" y="51" class="label">Gradio app</text>
+    <text x="66" y="70" class="body">Upload, train, classify</text>
+  </g>
 
-  <!-- Arrows -->
-  <line x1="200" y1="110" x2="310" y2="110" stroke="#666" stroke-width="2"/>
-  <polygon points="310,110 304,106 304,114" fill="#666"/>
+  <g transform="translate(366 86)">
+    <rect class="card" width="230" height="106" fill="#ecfeff"/>
+    <text x="24" y="31" class="tiny">DATA LAYER</text>
+    <text x="24" y="55" class="label">src/data</text>
+    <text x="24" y="76" class="body">Extract ZIP, map folders to classes,</text>
+    <text x="24" y="94" class="body">split data, apply transforms.</text>
+  </g>
 
-  <line x1="470" y1="110" x2="580" y2="110" stroke="#666" stroke-width="2"/>
-  <polygon points="580,110 574,106 574,114" fill="#666"/>
+  <g transform="translate(366 232)">
+    <rect class="card" width="230" height="106" fill="#fff7ed"/>
+    <text x="24" y="31" class="tiny">MODEL LAYER</text>
+    <text x="24" y="55" class="label">src/models</text>
+    <text x="24" y="76" class="body">Build torchvision backbones, train,</text>
+    <text x="24" y="94" class="body">evaluate and save checkpoints.</text>
+  </g>
+
+  <g transform="translate(690 112)">
+    <rect class="card" width="224" height="84" fill="#f8fafc"/>
+    <circle cx="34" cy="42" r="18" fill="#f59e0b" opacity="0.18"/>
+    <path d="M25 34 h18 v18 H25 z M29 38 h10 M29 44 h10" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round"/>
+    <text x="66" y="30" class="tiny">CONTRACTS</text>
+    <text x="66" y="51" class="label">src/schemas</text>
+    <text x="66" y="70" class="body">Config, dataset, model metadata</text>
+  </g>
+
+  <g transform="translate(690 238)">
+    <rect class="card" width="224" height="84" fill="#ffffff"/>
+    <circle cx="34" cy="42" r="18" fill="#fb7185" opacity="0.17"/>
+    <path d="M24 48 c8 10 26 10 34 0 M28 38 h26" fill="none" stroke="#e11d48" stroke-width="2.4" stroke-linecap="round"/>
+    <text x="66" y="30" class="tiny">OUTPUTS</text>
+    <text x="66" y="51" class="label">checkpoints/</text>
+    <text x="66" y="70" class="body">Weights, schema, examples</text>
+  </g>
+
+  <path class="line" d="M248 154 C292 154 314 134 356 134"/>
+  <path class="line" d="M248 280 C292 280 314 278 356 278"/>
+  <path class="line" d="M481 192 V222"/>
+  <path class="line" d="M596 134 C641 134 652 154 680 154"/>
+  <path class="line" d="M596 278 C641 278 652 280 680 280"/>
+  <path class="line" d="M690 280 C638 354 296 354 235 297"/>
 </svg>
