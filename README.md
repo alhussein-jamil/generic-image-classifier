@@ -6,7 +6,6 @@
 
 [![CI](https://github.com/alhussein-jamil/generic-image-classifier/actions/workflows/ci.yml/badge.svg)](https://github.com/alhussein-jamil/generic-image-classifier/actions/workflows/ci.yml)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/)
-[![PyPI](https://img.shields.io/pypi/v/generic-image-classifier)](https://pypi.org/project/generic-image-classifier/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-0F766E)](LICENSE)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
@@ -127,7 +126,7 @@ uv run pytest
 uv run ruff check src tests
 ```
 
-CI runs lint and tests on push/PR. Publishing to PyPI happens on GitHub release (configure the `pypi` environment with trusted publishing).
+CI runs lint and tests on push/PR.
 
 ## Project Structure
 

@@ -8,6 +8,16 @@ CUSTOM_CSS = """
 
 .gradio-container {
     max-width: 1180px !important;
+    width: min(1180px, 100%) !important;
+    margin-inline: auto !important;
+    padding-inline: 1rem !important;
+}
+
+.gradio-container .main,
+.gradio-container .wrap,
+.gradio-container > .contain {
+    max-width: 1180px !important;
+    margin-inline: auto !important;
 }
 
 .gic-hero {
@@ -17,6 +27,7 @@ CUSTOM_CSS = """
     margin-bottom: 1.25rem;
     color: #f0fdfa;
     box-shadow: var(--gic-shadow);
+    text-align: center;
 }
 
 .gic-hero h1 {
@@ -37,6 +48,7 @@ CUSTOM_CSS = """
     flex-wrap: wrap;
     gap: 0.65rem;
     margin-top: 1.1rem;
+    justify-content: center;
 }
 
 .gic-step {
@@ -117,6 +129,8 @@ CUSTOM_CSS = """
 
 footer {
     opacity: 0.65;
+    max-width: 1180px;
+    margin-inline: auto;
 }
 """
 

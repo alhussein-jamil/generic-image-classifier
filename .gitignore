@@ -172,7 +172,7 @@ cython_debug/
 
 # Project artifacts
 checkpoints/
-data/
+/data/
 dist/
 tmp/
 .ruff_cache/
