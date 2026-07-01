@@ -6,6 +6,7 @@ from generic_image_classifier.config import (
     save_config,
     update_config,
 )
+from generic_image_classifier.device import dataloader_workers, resolve_device
 from generic_image_classifier.schemas import AppConfig, Config, DataConfig, ModelConfig
 
 
@@ -39,3 +40,11 @@ def test_config_to_dict_from_dict():
     restored = Config.from_dict(config.to_dict())
     assert restored.model.num_classes == 3
     assert restored.data.zip_path == Path("a.zip")
+
+
+def test_resolve_device_cpu():
+    assert resolve_device("cpu").type == "cpu"
+
+
+def test_dataloader_workers_non_negative():
+    assert dataloader_workers() >= 0

@@ -4,6 +4,7 @@ from pathlib import Path
 
 import gradio as gr
 
+from generic_image_classifier.data.loading import IMAGE_EXTENSIONS
 from generic_image_classifier.data.zip import (
     count_classes_in_zip,
     validate_class_zip,
@@ -17,7 +18,6 @@ from generic_image_classifier.ui.theme import MODEL_CATALOG
 logger = get_logger(__name__)
 
 EMPTY_CLASS_TABLE = "| Class | Images (approx.) |\n| --- | ---: |\n"
-EXAMPLE_SUFFIXES = frozenset({".jpg", ".jpeg", ".png", ".webp"})
 
 
 def panel(title: str) -> gr.Markdown:
@@ -168,7 +168,7 @@ def list_example_images(examples_dir: Path | None) -> list[str]:
     return [
         str(path)
         for path in sorted(examples_dir.iterdir())
-        if path.suffix.lower() in EXAMPLE_SUFFIXES
+        if path.suffix.lower() in IMAGE_EXTENSIONS
     ]
 
 

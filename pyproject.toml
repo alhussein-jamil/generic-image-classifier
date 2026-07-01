@@ -52,6 +52,7 @@ packages = ["src/generic_image_classifier"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["tests"]
 addopts = "-q --tb=short"
 
 [tool.ruff]

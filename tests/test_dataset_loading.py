@@ -1,30 +1,38 @@
-import zipfile
 from pathlib import Path
 
-from generic_image_classifier.data.loading import load_dataset
+import pytest
+
+from factories import make_zip
+from generic_image_classifier.data.loading import is_valid_image, load_dataset
 from generic_image_classifier.schemas import DataConfig
 
 
-def _make_zip(path: Path, classes: dict[str, list[str]]) -> None:
-    with zipfile.ZipFile(path, "w") as zf:
-        for class_name, files in classes.items():
-            for filename in files:
-                zf.writestr(f"{class_name}/{filename}", b"fake")
+@pytest.mark.parametrize(
+    ("name", "expected"),
+    [
+        ("photo.jpg", True),
+        ("photo.JPEG", True),
+        ("photo.png", True),
+        ("photo.txt", False),
+        ("photo", False),
+    ],
+)
+def test_is_valid_image(name: str, expected: bool):
+    assert is_valid_image(Path(name)) is expected
 
 
 def test_load_dataset_split(tmp_path: Path):
     zip_path = tmp_path / "dataset.zip"
-    _make_zip(
+    make_zip(
         zip_path,
         {
             "cats": ["a.jpg", "b.jpg", "c.jpg"],
             "dogs": ["d.jpg", "e.jpg", "f.jpg"],
         },
     )
-    extract_dir = tmp_path / "extracted"
     config = DataConfig(
         zip_path=zip_path,
-        extract_dir=extract_dir,
+        extract_dir=tmp_path / "extracted",
         val_split=0.33,
         shuffle=False,
     )

@@ -1,6 +1,6 @@
-import zipfile
 from pathlib import Path
 
+from factories import make_zip
 from generic_image_classifier.schemas import Model, ModelInfo, ModelResults, TrainingHistory
 from generic_image_classifier.ui.components import (
     metrics_markdown,
@@ -9,16 +9,9 @@ from generic_image_classifier.ui.components import (
 )
 
 
-def _make_zip(path: Path) -> None:
-    with zipfile.ZipFile(path, "w") as zf:
-        zf.writestr("cats/a.jpg", b"x")
-        zf.writestr("cats/b.jpg", b"x")
-        zf.writestr("dogs/c.jpg", b"x")
-
-
 def test_preview_zip_contents(tmp_path: Path):
     zip_path = tmp_path / "data.zip"
-    _make_zip(zip_path)
+    make_zip(zip_path, {"cats": ["a.jpg", "b.jpg"], "dogs": ["c.jpg"]})
 
     class FileStub:
         name = str(zip_path)

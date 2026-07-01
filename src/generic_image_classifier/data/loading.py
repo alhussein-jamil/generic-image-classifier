@@ -14,7 +14,7 @@ from generic_image_classifier.schemas import (
 
 logger = get_logger(__name__)
 
-IMAGE_EXTENSIONS = frozenset({".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff"})
+IMAGE_EXTENSIONS = frozenset({".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff", ".webp"})
 
 
 def is_valid_image(filepath: Path) -> bool:

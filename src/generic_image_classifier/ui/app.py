@@ -381,9 +381,7 @@ def create_app(config: AppConfig, checkpoint_dir: Path, model_name: str) -> gr.B
                 )
 
             with gr.Tab("Model report"):
-                intro, metrics, info, classes, history, cm = report_view(schema)
-                if intro:
-                    gr.Markdown(intro)
+                _, metrics, info, classes, history, cm = report_view(schema)
                 gr.Markdown(metrics)
                 gr.Markdown(info)
                 gr.Dataframe(

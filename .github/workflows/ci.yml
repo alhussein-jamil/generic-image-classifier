@@ -34,9 +34,4 @@ jobs:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
       - run: uv sync --dev
-      - run: uv run pytest --cov=generic_image_classifier --cov-report=xml
-      - uses: codecov/codecov-action@v5
-        if: matrix.python-version == '3.12'
-        with:
-          files: coverage.xml
-          fail_ci_if_error: false
+      - run: uv run pytest

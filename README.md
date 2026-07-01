@@ -79,7 +79,7 @@ dataset.zip
     └── bird_002.png
 ```
 
-Supported image extensions are `.jpg`, `.jpeg`, `.png`, `.bmp`, `.tif`, and `.tiff`.
+Supported image extensions are `.jpg`, `.jpeg`, `.png`, `.bmp`, `.tif`, `.tiff`, and `.webp`.
 
 ## How Training Works
 

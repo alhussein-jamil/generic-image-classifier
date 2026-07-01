@@ -2,7 +2,6 @@
 SHELL := /bin/bash
 
 UV ?= uv
-PYTHON ?= python3
 PORT ?= 7860
 ZIP ?=
 MODEL ?= mobilenetv2
